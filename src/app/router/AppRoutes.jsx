@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "../shared/layouts/MainLayout";
+import MainLayout from "../../shared/layouts/MainLayout";
 
 
 function AppRoutes() {
