@@ -7,10 +7,28 @@ import {
 
 const TasksContext = createContext();
 
+function getInitialTasks() {
+  try {
+    const storedTasks =
+      localStorage.getItem("tasks");
+
+    return storedTasks
+      ? JSON.parse(storedTasks)
+      : [];
+  } catch (error) {
+    console.error(
+      "Erreur lecture localStorage:",
+      error
+    );
+
+    return [];
+  }
+}
+
 const initialState = {
-  tasks: JSON.parse(
-    localStorage.getItem("tasks")
-  ) || [],
+  tasks: getInitialTasks(),
+  filter: "all",
+  search: "",
 };
 
 function tasksReducer(state, action) {
@@ -42,6 +60,18 @@ function tasksReducer(state, action) {
         ),
       };
 
+    case "SET_FILTER":
+      return {
+        ...state,
+        filter: action.payload,
+      };
+
+    case "SET_SEARCH":
+      return {
+        ...state,
+        search: action.payload,
+      };
+
     default:
       return state;
   }
@@ -64,6 +94,8 @@ export function TasksProvider({ children }) {
     <TasksContext.Provider
       value={{
         tasks: state.tasks,
+        filter: state.filter,
+        search: state.search,
         dispatch,
       }}
     >

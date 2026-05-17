@@ -2,18 +2,22 @@ import { useTasks } from "../context/TasksContext";
 import TaskCard from "./TaskCard";
 
 function TaskList() {
-  const { tasks, filter } = useTasks();
+  const { tasks, filter, search } =
+    useTasks();
 
   const filteredTasks = tasks.filter((task) => {
-    if (filter === "completed") {
-      return task.completed;
-    }
+    const matchesFilter =
+      filter === "completed"
+        ? task.completed
+        : filter === "pending"
+        ? !task.completed
+        : true;
 
-    if (filter === "pending") {
-      return !task.completed;
-    }
+    const matchesSearch = task.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
 
-    return true;
+    return matchesFilter && matchesSearch;
   });
 
   if (filteredTasks.length === 0) {

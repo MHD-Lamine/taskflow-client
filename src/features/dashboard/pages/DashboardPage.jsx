@@ -1,16 +1,11 @@
-import { useTasks } from "../../tasks/context/TasksContext";
+import { useTaskStats } from "../../tasks/hooks/useTaskStats";
 
 function DashboardPage() {
-  const { tasks } = useTasks();
-
-  const totalTasks = tasks.length;
-
-  const completedTasks = tasks.filter(
-    (task) => task.completed
-  ).length;
-
-  const pendingTasks =
-    totalTasks - completedTasks;
+  const {
+    totalTasks,
+    completedTasks,
+    pendingTasks,
+  } = useTaskStats();
 
   return (
     <div>
