@@ -5,15 +5,37 @@ import MainLayout from "../../shared/layouts/MainLayout";
 import DashboardPage from "../../features/dashboard/pages/DashboardPage";
 import TasksPage from "../../features/tasks/pages/TasksPage";
 
+import LoginPage from "../../features/auth/pages/LoginPage";
+
+import ProtectedRoute from "../../shared/components/ProtectedRoute";
+
 function AppRoutes() {
   return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<DashboardPage />} />
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/tasks" element={<TasksPage />} />
-      </Routes>
-    </MainLayout>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <DashboardPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <TasksPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

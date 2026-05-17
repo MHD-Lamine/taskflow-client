@@ -1,12 +1,15 @@
 import AppRoutes from "./app/router/AppRoutes";
 
 import { TasksProvider } from "./features/tasks/context/TasksContext";
+import { AuthProvider } from "./features/auth/context/AuthContext";
 
 function App() {
   return (
-    <TasksProvider>
-      <AppRoutes />
-    </TasksProvider>
+    <AuthProvider>
+      <TasksProvider>
+        <AppRoutes />
+      </TasksProvider>
+    </AuthProvider>
   );
 }
 
