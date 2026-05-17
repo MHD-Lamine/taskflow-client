@@ -8,6 +8,7 @@ import TasksPage from "../../features/tasks/pages/TasksPage";
 import LoginPage from "../../features/auth/pages/LoginPage";
 
 import ProtectedRoute from "../../shared/components/ProtectedRoute";
+import RegisterPage from "../../features/auth/pages/RegisterPage";
 
 function AppRoutes() {
   return (
@@ -35,6 +36,8 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }

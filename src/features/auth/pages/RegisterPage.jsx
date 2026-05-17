@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 import toast from "react-hot-toast";
 
+import { registerUser } from "../services/authService";
+
 import { useAuth } from "../context/AuthContext";
 
-import { loginUser } from "../services/authService";
+function RegisterPage() {
+  const [name, setName] = useState("");
 
-function LoginPage() {
   const [email, setEmail] = useState("");
 
   const [password, setPassword] =
@@ -27,14 +29,15 @@ function LoginPage() {
     try {
       setLoading(true);
 
-      const data = await loginUser({
+      const data = await registerUser({
+        name,
         email,
         password,
       });
 
       login(data);
 
-      toast.success("Connexion réussie");
+      toast.success("Compte créé");
 
       navigate("/");
     } catch (error) {
@@ -51,13 +54,23 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-sm w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-center">
-          Login
+          Register
         </h1>
 
         <form
           onSubmit={handleSubmit}
           className="space-y-4"
         >
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full border rounded-xl px-4 py-3 outline-none"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
+
           <input
             type="email"
             placeholder="Email"
@@ -81,7 +94,7 @@ function LoginPage() {
           <button className="w-full bg-black text-white py-3 rounded-xl">
             {loading
               ? "Chargement..."
-              : "Login"}
+              : "Register"}
           </button>
         </form>
       </div>
@@ -89,4 +102,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
