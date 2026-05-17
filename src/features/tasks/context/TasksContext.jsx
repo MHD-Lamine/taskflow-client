@@ -1,9 +1,16 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 
 const TasksContext = createContext();
 
 const initialState = {
-  tasks: [],
+  tasks: JSON.parse(
+    localStorage.getItem("tasks")
+  ) || [],
 };
 
 function tasksReducer(state, action) {
@@ -17,7 +24,9 @@ function tasksReducer(state, action) {
     case "DELETE_TASK":
       return {
         ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.payload),
+        tasks: state.tasks.filter(
+          (task) => task.id !== action.payload
+        ),
       };
 
     case "TOGGLE_TASK":
@@ -29,7 +38,7 @@ function tasksReducer(state, action) {
                 ...task,
                 completed: !task.completed,
               }
-            : task,
+            : task
         ),
       };
 
@@ -39,7 +48,17 @@ function tasksReducer(state, action) {
 }
 
 export function TasksProvider({ children }) {
-  const [state, dispatch] = useReducer(tasksReducer, initialState);
+  const [state, dispatch] = useReducer(
+    tasksReducer,
+    initialState
+  );
+
+  useEffect(() => {
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(state.tasks)
+    );
+  }, [state.tasks]);
 
   return (
     <TasksContext.Provider
